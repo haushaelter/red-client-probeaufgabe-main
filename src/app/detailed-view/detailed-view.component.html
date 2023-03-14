@@ -1,0 +1,36 @@
+<ng-container *ngIf="resource$ | async as resource">
+  <h2>{{resource.resourceType}}</h2>
+  <table style="width: 75%">
+    <tr>
+      <ng-container *ngIf="resource.name">
+        <td class="fw-bold">Name</td>
+        <td>{{resource.name[0]}}</td>
+      </ng-container>
+      <ng-container *ngIf="resource.id">
+        <td class="fw-bold">ID</td>
+        <td>{{resource.id}}</td>
+      </ng-container>
+    </tr>
+    <tr>
+      <ng-container *ngIf="resourceType === 'Patient';then patient; else practitioner"></ng-container>
+    </tr>
+    <ng-template #patient>
+      <td class="fw-bold">Geburtsdatum</td>
+      <td>{{resource.birthDate}}</td>
+      <ng-container *ngIf="resource.gender">
+        <td class="fw-bold">Geschlecht</td>
+        <td>{{resource.gender}}</td>
+      </ng-container>
+      <ng-container *ngIf="resource.address?.length > 0">
+        <td class="fw-bold">Adresse</td>
+        <td>{{resource.address[0]}}</td>
+      </ng-container>
+    </ng-template>
+    <ng-template #practitioner>
+      <ng-container *ngIf="resource.telecom?.length > 0">
+        <td class="fw-bold">Telecom</td>
+        <td>{{resource.telecom[0].value}}</td>
+      </ng-container>
+    </ng-template>
+  </table>
+</ng-container>

@@ -26,6 +26,10 @@ export class PractitionerSearchService extends AbstractBaseFhirSearchService<IFh
   }
 
   findById(id: string): Observable<IFhirPractitioner> {
+    if (id === undefined) {
+      return;
+    }
+
     const url = `${PractitionerSearchService.url}/${id}?${PractitionerSearchService.defaultMimeType}`;
     return this.http.get<IFhirPractitioner>(url);
   }

@@ -13,6 +13,10 @@ const routes: Routes = [
         loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       { path: 'imprint', loadChildren: () => import('../imprint/imprint.module').then((m) => m.ImprintModule) },
+      {
+        path: 'detailed-view/:resource/:id',
+        loadChildren: () => import('../detailed-view/detailed-view.module').then((m) => m.DetailedViewModule),
+      },
       { path: '**', redirectTo: '/dashboard' },
     ],
   },
