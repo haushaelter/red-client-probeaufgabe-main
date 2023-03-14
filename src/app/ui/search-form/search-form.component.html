@@ -1,1 +1,13 @@
-<!-- implement search form here -->
+<form [formGroup]="form">
+  <div>
+    <label>
+      <input formControlName="search" placeholder="Suche" />
+    </label>
+  </div>
+  <div class="select-input">
+    <select formControlName="filter">
+      <option *ngFor="let option of dropdownOptions" [ngValue]="option.key">{{option.value}}</option>
+    </select>
+  </div>
+  <button (click)="submit()">Submit</button>
+</form>

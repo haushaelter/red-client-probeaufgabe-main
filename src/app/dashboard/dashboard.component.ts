@@ -55,6 +55,21 @@ export class DashboardComponent {
     this.siteTitleService.setSiteTitle('Dashboard');
   }
 
+  public search(query: { filter: FhirSearchFn; searchTerm: string }): void {
+    this.search$ = this.searchFacade.search(query.filter, query.searchTerm).pipe(
+      catchError(this.handleError),
+      tap(() => {
+        this.isLoading = false;
+      }),
+      shareReplay(),
+    );
+
+    this.entries$ = this.search$.pipe(
+      map((data) => !!data && data.entry),
+      startWith([]),
+    );
+  }
+
   private handleError(): Observable<IFhirSearchResponse<IFhirPatient | IFhirPractitioner>> {
     return of({ entry: [], total: 0 });
   }
