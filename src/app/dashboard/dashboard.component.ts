@@ -4,7 +4,7 @@ import { catchError, map, shareReplay, startWith, tap } from 'rxjs/operators';
 import { SiteTitleService } from '@red-probeaufgabe/core';
 import { FhirSearchFn, IFhirPatient, IFhirPractitioner, IFhirSearchResponse } from '@red-probeaufgabe/types';
 import { IUnicornTableColumn } from '@red-probeaufgabe/ui';
-import { AbstractSearchFacadeService } from '@red-probeaufgabe/search';
+import { SearchFacadeService } from '@red-probeaufgabe/search';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,7 +45,13 @@ export class DashboardComponent {
     startWith(0),
   );
 
-  constructor(private siteTitleService: SiteTitleService, private searchFacade: AbstractSearchFacadeService) {
+  /**
+   * Zu Beginn wurde ein NullInjectorError geworfen, da der AbstractSearchFacadeService anstelle des SearchFacadeService verwendet wurde.
+   * Der Fehler ist aufgetreten, da der AbstractSearchFacadeService nicht Teil des SearchModule ist.
+   * Man hätte auch den AbstractSearchFacadeService in das Module aufnehmen können, wäre dann aber vor dem Problem gestanden,
+   * dass die Functions nicht implementiert sind, da sie abstract sind
+   */
+  constructor(private siteTitleService: SiteTitleService, private searchFacade: SearchFacadeService) {
     this.siteTitleService.setSiteTitle('Dashboard');
   }
 
